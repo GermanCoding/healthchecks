@@ -28,6 +28,7 @@ def envint(s: str, default: str) -> int | None:
     return int(v)
 
 
+USE_I18N = envbool("USE_I18N", "False")
 SECRET_KEY = os.getenv("SECRET_KEY", "---")
 METRICS_KEY = os.getenv("METRICS_KEY")
 DEBUG = envbool("DEBUG", "True")
