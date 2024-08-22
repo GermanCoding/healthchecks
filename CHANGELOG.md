@@ -74,7 +74,6 @@ https://github.com/healthchecks/healthchecks/tree/master/docker#upgrading-databa
 - Add "Last ping subject" field in email notifications
 - Change the signup flow to accept registered users (and sign them in instead)
 - Implement event type filtering in the Log page (#873)
-- Implement dynamic favicon in the "Checks" and "Details" pages (#971, @princekhunt)
 
 ### Bug Fixes
 - Fix Gotify integration to handle Gotify server URLs with paths (#964)
