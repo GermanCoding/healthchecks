@@ -48,6 +48,11 @@
                             href="{% url 'hc-change-email' %}"
                             class="btn btn-default pull-right">Change Email</a>
                         {% endif %}
+                        {% if external_account %}
+                        <a
+                            href="{{ external_account }}"
+                            class="btn btn-default pull-right">Manage Account</a>
+                        {% endif %}
                     </p>
                     <p class="clearfix"></p>
                     {% if not readonly_login %}
