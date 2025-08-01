@@ -43,11 +43,14 @@
                         Your account's email address is
                         <code>{{ request.user.email }}</code>
 
+                        {% if not readonly_login %}
                         <a
                             href="{% url 'hc-change-email' %}"
                             class="btn btn-default pull-right">Change Email</a>
+                        {% endif %}
                     </p>
                     <p class="clearfix"></p>
+                    {% if not readonly_login %}
                     {% if request.user.has_usable_password %}
                     <p class="settings-bar">
                         Password authentication is enabled.
@@ -62,6 +65,7 @@
                             href="{% url 'hc-set-password' %}"
                             class="btn btn-default pull-right">Set Password</a>
                     </p>
+                    {% endif %}
                     {% endif %}
                 </form>
             </div>
@@ -154,6 +158,7 @@
                     </div>
                     {% endif %}
 
+                    {% if not readonly_login %}
                     {% if not credentials and not profile.totp %}
                     <p class="alert alert-info">
                     Two-factor authentication is currently <strong>inactive</strong>.
@@ -178,6 +183,7 @@
                         </a>
                         {% endif %}
                     </div>
+                    {% endif %}
                 </form>
             </div>
 

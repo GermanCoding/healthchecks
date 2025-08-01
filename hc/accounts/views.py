@@ -313,6 +313,11 @@ def profile(request: AuthenticatedHttpRequest) -> HttpResponse:
         ctx["changed_password"] = True
         ctx["email_password_status"] = "success"
 
+    if settings.REMOTE_USER_HEADER:
+        ctx["readonly_login"] = True
+    else:
+        ctx["readonly_login"] = False
+
     if request.method == "POST" and "leave_project" in request.POST:
         code = request.POST["code"]
         try:
@@ -572,6 +577,9 @@ def notifications(request: AuthenticatedHttpRequest) -> HttpResponse:
 @sensitive_post_parameters()
 @require_sudo_mode
 def set_password(request: AuthenticatedHttpRequest) -> HttpResponse:
+    if settings.REMOTE_USER_HEADER:
+        return HttpResponseForbidden()
+
     if request.method == "POST":
         form = forms.SetPasswordForm(request.POST)
         if form.is_valid():
@@ -595,6 +603,9 @@ def set_password(request: AuthenticatedHttpRequest) -> HttpResponse:
 @login_required
 @require_sudo_mode
 def change_email(request: AuthenticatedHttpRequest) -> HttpResponse:
+    if settings.REMOTE_USER_HEADER:
+        return HttpResponseForbidden()
+
     if "sent" in request.session:
         ctx = {"email": request.session.pop("sent")}
         return render(request, "accounts/change_email_instructions.html", ctx)
@@ -712,6 +723,9 @@ def remove_project(request: AuthenticatedHttpRequest, code: str) -> HttpResponse
 @login_required
 @require_sudo_mode
 def add_webauthn(request: AuthenticatedHttpRequest) -> HttpResponse:
+    if settings.REMOTE_USER_HEADER:
+        return HttpResponseForbidden()
+
     if not settings.RP_ID:
         return HttpResponse(status=404)
 
@@ -748,6 +762,9 @@ def add_webauthn(request: AuthenticatedHttpRequest) -> HttpResponse:
 @login_required
 @require_sudo_mode
 def add_totp(request: AuthenticatedHttpRequest) -> HttpResponse:
+    if settings.REMOTE_USER_HEADER:
+        return HttpResponseForbidden()
+
     if request.profile.totp:
         # TOTP is already configured, refuse to continue
         return HttpResponseBadRequest()
