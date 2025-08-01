@@ -315,6 +315,7 @@ def profile(request: AuthenticatedHttpRequest) -> HttpResponse:
 
     if settings.REMOTE_USER_HEADER:
         ctx["readonly_login"] = True
+        ctx["external_account"] = settings.EXTERNAL_ACCOUNT
     else:
         ctx["readonly_login"] = False
 
